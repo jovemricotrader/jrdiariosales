@@ -290,16 +290,16 @@ footer strong{color:var(--w2)}
 }
 
 /* ── EXIT POPUP ── */
-#exitPopup{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px}
-#exitBg{position:absolute;inset:0;background:rgba(5,7,13,.96);backdrop-filter:blur(20px)}
-#exitCard{position:relative;z-index:1;background:var(--bg2);border:1px solid rgba(0,212,170,.3);border-radius:6px;max-width:520px;width:100%;overflow:hidden;transform:scale(.8) rotateX(15deg);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);transform-style:preserve-3d}
+#exitPopup{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;cursor:default}
+#exitBg{position:absolute;inset:0;background:rgba(5,7,13,.96);backdrop-filter:blur(20px);cursor:default}
+#exitCard{position:relative;z-index:1;background:var(--bg2);border:1px solid rgba(0,212,170,.3);border-radius:6px;max-width:520px;width:100%;overflow:hidden;transform:scale(.8) rotateX(15deg);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);transform-style:preserve-3d;cursor:default}
 #exitPopup.show #exitCard{transform:scale(1) rotateX(0);opacity:1}
 #exitPopup.show{display:flex}
 #exit-tl{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--t),var(--t3),transparent);animation:borderFlow 2s linear infinite;background-size:200% 100%}
 #exit-scan{position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(180deg,rgba(0,212,170,.04) 0%,transparent 100%);animation:scanline 4s ease infinite;pointer-events:none}
 @keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(1200%)}}
 .exit-head{padding:28px 28px 0;display:flex;align-items:flex-start;justify-content:space-between}
-.exit-close{width:28px;height:28px;border-radius:2px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--w2);transition:all .15s}
+.exit-close{width:28px;height:28px;border-radius:2px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer!important;font-size:14px;color:var(--w2);transition:all .15s}
 .exit-close:hover{background:rgba(239,68,68,.1);color:var(--rd);border-color:rgba(239,68,68,.3)}
 .exit-body{padding:0 28px 28px}
 .exit-terminal-line{font-family:'DM Mono',monospace;font-size:11px;color:var(--t3);margin-bottom:4px;overflow:hidden;white-space:nowrap}
@@ -865,6 +865,9 @@ function showExit(){
   exitShown = true;
   const popup = document.getElementById('exitPopup');
   popup.style.display = 'flex';
+  document.documentElement.style.cursor = 'default';
+  document.getElementById('cur').style.display='none';
+  document.getElementById('cur2').style.display='none';
   setTimeout(() => popup.classList.add('show'), 10);
   // Type terminal lines
   const linesEl = document.getElementById('exit-lines');
@@ -902,6 +905,9 @@ function closeExit(){
   gsap.to('#exitCard', {scale:.9, opacity:0, rotateX:15, duration:.3, ease:'power2.in', onComplete:()=>{
     popup.classList.remove('show');
     popup.style.display='none';
+    document.documentElement.style.cursor = 'none';
+    document.getElementById('cur').style.display='block';
+    document.getElementById('cur2').style.display='block';
   }});
 }
 // Trigger on mouse leaving to top of page
