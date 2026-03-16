@@ -7,13 +7,12 @@ const PORT = process.env.PORT || 3000;
 const ROUTES = {
   '/jrdiario': 'jrdiario.html',
   '/jrpayout': 'jrpayout.html',
-  // adiciona novos produtos aqui: '/jrx': 'jrx.html'
+  // próximos produtos: '/jrx': 'jrx.html'
 };
 
 http.createServer((req, res) => {
   const url = req.url.split('?')[0].replace(/\/$/, '') || '/';
 
-  // Rota encontrada
   if (ROUTES[url]) {
     const file = path.join(__dirname, ROUTES[url]);
     fs.readFile(file, (err, data) => {
@@ -24,7 +23,7 @@ http.createServer((req, res) => {
     return;
   }
 
-  // Raiz = hub (futuro)
+  // Raiz → redireciona pro jrdiario por enquanto
   if (url === '/') {
     res.writeHead(302, { Location: '/jrdiario' });
     res.end();
@@ -35,6 +34,6 @@ http.createServer((req, res) => {
   res.end('Página não encontrada');
 
 }).listen(PORT, () => {
-  console.log('ia.jovemrico.com rodando na porta ' + PORT);
-  console.log('Rotas ativas:', Object.keys(ROUTES).join(', '));
+  console.log('ia.jovemrico.com hub na porta ' + PORT);
+  console.log('Rotas:', Object.keys(ROUTES).join(', '));
 });
